@@ -1,4 +1,5 @@
 from numpy import spacing
+import sys
 
 
 levelTab = {}
@@ -18,6 +19,11 @@ totalTime = 0
 runs = 0
 xpGained = 0
 totalRuns = 0
+mode = 0
+
+if sys.argv[1] == "--format=Sheets":
+	mode = 1
+
 
 readFile = open("xpRequired.txt", "r").readlines()
 
@@ -47,7 +53,8 @@ for i in informations:
 	elif informations[i][0] == 'meats':
 		meats = int(informations[i][1])
 
-print("P-Lvl = ", currLevel, " | maxStam = ", maxStam, " | currStam = ", currStam, " | XP->(", levelTab[currLevel - 1] - xpLeft, '/', levelTab[currLevel - 1], ')', " | meats = ", meats, '\n', sep='')
+if mode == 1:
+	print("P-Lvl,", "Runs,", "Total Runs,", "Meats,", "Used Gems,", "Current XP,", "Time to level UP,", "Total time elapsed")
 
 while currLevel < levelLimit:
 	if int(currStam / stamPerRun) * xpPerRun < xpLeft:
@@ -79,4 +86,7 @@ while currLevel < levelLimit:
 			maxStam += 1
 		xpLeft = levelTab[currLevel] - xpGained
 
-	print('P-Lvl= ', f'{currLevel:<4}', ' | Runs= ', f'{runs:<3}', ' | totalRuns= ', f'{totalRuns:<6}', ' | Meats= ', f'{meats:<3}', ' | gemsUsed= ', f'{totalGemsUsed:<4}', ' | XP->(', f'{levelTab[currLevel - 1] - xpLeft:<6}', '/', f'{levelTab[currLevel - 1]:9}', ") | Time= ", int(timePerRun * runs / 3600), 'h', int(timePerRun * runs / 60 % 60), 'm', timePerRun * runs % 60, "s\t| totalTime= ", int(totalTime / 3600), 'h', int(totalTime / 60 % 60), 'm', totalTime % 60, 's', sep='')
+	if mode == 0:
+		print('P-Lvl= ', f'{currLevel:<4}', ' | Runs= ', f'{runs:<3}', ' | totalRuns= ', f'{totalRuns:<6}', ' | Meats= ', f'{meats:<3}', ' | gemsUsed= ', f'{totalGemsUsed:<4}', ' | XP->(', f'{levelTab[currLevel - 1] - xpLeft:<6}', '/', f'{levelTab[currLevel - 1]:9}', ") | Time= ", int(timePerRun * runs / 3600), 'h', int(timePerRun * runs / 60 % 60), 'm', timePerRun * runs % 60, "s\t| totalTime= ", int(totalTime / 3600), 'h', int(totalTime / 60 % 60), 'm', totalTime % 60, 's', sep='')
+	else:
+		print(currLevel, runs, totalRuns, meats, totalGemsUsed, '(' + str(levelTab[currLevel - 1] - xpLeft) + ' / ' + str(levelTab[currLevel - 1]) + ')', str(int(timePerRun * runs / 3600)) + 'h' + str(int(timePerRun * runs / 60 % 60)) + 'm' + str(timePerRun * runs % 60) + 's', str(int(totalTime / 3600)) + 'h' + str(int(totalTime / 60 % 60)) + 'm' + str(totalTime % 60) + 's', sep=',')
