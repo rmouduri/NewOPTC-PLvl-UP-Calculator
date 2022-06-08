@@ -1,0 +1,8 @@
+currentLevel=1
+maximumStamina=20
+currentStamina=20
+xpLeftToLevelUP=12
+staminaPerRun=15
+xpPerRun=91125
+timePerRunInSeconds=75
+meats=0
