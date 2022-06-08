@@ -21,7 +21,7 @@ xpGained = 0
 totalRuns = 0
 mode = 0
 
-if sys.argv[1] == "--format=Sheets":
+if len(sys.argv) > 1 and sys.argv[1] == "--format=Sheets":
 	mode = 1
 
 
